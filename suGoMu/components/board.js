@@ -23,25 +23,13 @@ function Board(props) {
 
     const [time, setTime] = useState(0)
     const [active, setActive] = useState(true)
-    const { min, secs } = getTime(time)
-    const [test, setTest] = useState(0)
+    const { mins, secs } = getTime(time)
 
     useEffect(() => {
-        // let interval = null
-        // if (active) {
-        //     interval = setInterval(() => {
-        //         setTime(time + 1)
-        //     }, 1000)
-        // }
         if (active) {
-            setTimeout(setTime(time => time + 1), 10000)
-            setTest(test + 1)
+            setTimeout(() => { setTime(time + 1) }, 1000)
         }
-    }, [test, active])
-
-    // while (active) {
-    //     setTimeout(setTime(time + 1), 1000)
-    // }
+    }, [time, active])
 
 
     useEffect(() => {
@@ -72,7 +60,7 @@ function Board(props) {
                 alert('Wrong')
             } else {
                 alert('correct')
-                navigation.navigate("Finish", { name: route.params.name, win: true })
+                navigation.navigate("Finish", { name: route.params.name, win: true, time })
             }
         }
         setFirstRun(false)
@@ -80,7 +68,7 @@ function Board(props) {
 
     function giveUp() {
         alert('Are you sure')
-        navigation.navigate("Finish", { name: route.params.name, win: false })
+        navigation.navigate("Finish", { name: route.params.name, win: false, time })
     }
 
     function fill() {
@@ -115,9 +103,14 @@ function Board(props) {
         }
         if (count == 81) {
             alert('correct')
-            navigation.navigate("Finish", { name: route.params.name, win: true })
+            navigation.navigate("Finish", { name: route.params.name, win: true, time })
         }
     }, [board])
+
+
+    function reset() {
+        setBoard(JSON.parse(JSON.stringify(initBoard)))
+    }
 
 
 
@@ -138,26 +131,16 @@ function Board(props) {
         </View>
 
 
-        <TouchableOpacity style={styles.button} onPress={validate}>
-            <Text>Check</Text>
-        </TouchableOpacity>
+        <Text>{mins < 10 ? `0` + mins : mins}:{secs < 10 ? `0` + secs : secs}</Text>
 
-        <Text>{solution}</Text>
-        <Text>{time}</Text>
-
-
-        <TouchableOpacity style={styles.button} onPress={giveUp}>
-            <Text>Give Up</Text>
-        </TouchableOpacity>
-
-
-        <View>
+        <Button title="win" onPress={fill}></Button>
+        <Button onPress={validate} title="Check"></Button>
+        <View style={styles.buttonBox}>
             <Button onPress={giveUp} title="Give Up"></Button>
             <Button title={`Hint (${hint})`} onPress={giveHint} ></Button>
+            <Button onPress={reset} title="Reset"></Button>
         </View>
 
-        <Button title="fill" onPress={fill}></Button>
-        <Button onPress={validate} title="Check"></Button>
 
 
         {/* disabled={hint < 1} */}
@@ -186,6 +169,9 @@ function Board(props) {
 let styles = StyleSheet.create({
     boardBox: {
         alignSelf: "center"
+    },
+    buttonBox: {
+        flexDirection: "row",
     },
     box: {
         width: 30,

@@ -8,7 +8,7 @@ function Game({ navigation, route }) {
 
     return <View style={styles.container}>
         <Text> Game </Text>
-        <Text> {JSON.stringify(route.params.name)} </Text>
+        <Text> {route.params.name} </Text>
         <Board navigation={navigation} route={route} />
 
     </View>
@@ -21,7 +21,6 @@ function Game({ navigation, route }) {
 const styles = StyleSheet.create({
     container: {
         width: 100,
-        backgroundColor: '#fff',
         alignItems: 'center',
         justifyContent: 'center',
         alignSelf: "center",

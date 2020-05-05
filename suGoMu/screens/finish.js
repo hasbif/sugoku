@@ -3,6 +3,15 @@ import { StyleSheet, Text, View, TextInput, Button, TouchableOpacity } from 'rea
 import { useSelector } from 'react-redux'
 
 
+function format(time) {
+    let mins = Math.floor(time / 60)
+    let secs = time - mins * 60
+    mins = mins < 10 ? '0' + mins : String(mins)
+    secs = secs < 10 ? '0' + secs : String(secs)
+    return mins + ':' + secs
+}
+
+
 function Finish({ navigation, route }) {
 
     function goHome() {
@@ -11,6 +20,12 @@ function Finish({ navigation, route }) {
 
     const board = useSelector(state => state.board)
     const solution = useSelector(state => state.solution)
+    const seconds = route.params.time
+    const time = format(seconds)
+    console.log(route.params)
+
+
+
 
 
 
@@ -19,7 +34,13 @@ function Finish({ navigation, route }) {
         <Text> Finish</Text>
         <Text> {JSON.stringify(route.params.name)} </Text>
         <Button title="Home" onPress={goHome} />
-        {route.params.win ? <Text>SUGOI, {route.params.name} senpai won, aaaaa</Text> : <Text>It's Ok {route.params.name}, i believe in you, next time youll get it</Text>}
+        {route.params.win ? <Text>SUGOI, {route.params.name} senpai won, aaaaa</Text>
+            :
+            <Text>It's Ok {route.params.name}, i believe in you, next time youll get it</Text>}
+
+        {route.params.win ? <Text>You won in {time}</Text>
+            :
+            <Text>You gave up after {time} passed</Text>}
 
 
 
