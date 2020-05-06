@@ -1,6 +1,11 @@
 import React, { useState } from 'react'
-import { StyleSheet, Text, View, TextInput, Button, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, Button, TouchableOpacity, Dimensions } from 'react-native';
 import { useSelector } from 'react-redux'
+
+
+
+const winW = Dimensions.get("window").width
+const winH = Dimensions.get("window").height
 
 
 function format(time) {
@@ -30,17 +35,11 @@ function Finish({ navigation, route }) {
 
 
 
-    return <View>
-        <Text> Finish</Text>
-        <Text> {JSON.stringify(route.params.name)} </Text>
-        <Button title="Home" onPress={goHome} />
-        {route.params.win ? <Text>SUGOI, {route.params.name} senpai won, aaaaa</Text>
-            :
-            <Text>It's Ok {route.params.name}, i believe in you, next time youll get it</Text>}
+    return <View style={styles.container}>
 
-        {route.params.win ? <Text>You won in {time}</Text>
-            :
-            <Text>You gave up after {time} passed</Text>}
+
+
+        <Text style={{ marginTop: 50, marginBottom: 20, fontSize: 18, textAlign: "center", color: "white" }}>Time Left: {time}</Text>
 
 
 
@@ -51,12 +50,24 @@ function Finish({ navigation, route }) {
                     return <View key={idx} style={styles.row}>
                         {row.map((col, idy) =>
                             <View key={idy} style={board[idx][idy] == 0 ? styles.box : styles.boxgray}>
-                                <Text>{col}</Text>
+                                <Text style={styles.input}>{col}</Text>
                             </View>
                         )}
                     </View>
                 })}
         </View>
+
+        {route.params.win ? <Text style={styles.text}>Congratulations, You've Won</Text> : <Text style={styles.text}>Better Luck Next Time</Text>}
+
+
+
+
+
+        <Text style={{ ...styles.text, fontSize: 24, marginTop: 0 }}>{route.params.name}</Text>
+
+        <TouchableOpacity onPress={goHome} style={{}}>
+            <Text style={styles.play}>Play Again</Text>
+        </TouchableOpacity>
 
 
 
@@ -69,24 +80,38 @@ function Finish({ navigation, route }) {
 
 
 let styles = StyleSheet.create({
+    container: {
+        backgroundColor: "black",
+        width: "100%",
+        height: "100%"
+    },
     boardBox: {
-        alignSelf: "center"
+        alignSelf: "center",
+        borderStyle: "solid",
+        borderColor: "white",
+        justifyContent: "center",
+        alignItems: "center",
+        width: winW - 30,
+        height: winW - 30
+
     },
     box: {
-        width: 30,
-        height: 30,
+        width: (winW - 30) / 9,
+        height: (winW - 30) / 9,
         borderStyle: "solid",
-        borderWidth: 1,
+        borderWidth: 2,
+        borderColor: "white",
         justifyContent: "center",
-        alignItems: "center"
+        backgroundColor: "darkgray",
     },
     boxgray: {
-        width: 30,
-        height: 30,
+        width: (winW - 30) / 9,
+        height: (winW - 30) / 9,
         borderStyle: "solid",
-        borderWidth: 1,
-        backgroundColor: "lightgray",
-        alignItems: "center"
+        borderWidth: 2,
+        borderColor: "white",
+        backgroundColor: "gray",
+        justifyContent: "center"
     },
     row: {
         flexDirection: "row",
@@ -95,10 +120,30 @@ let styles = StyleSheet.create({
     input: {
         alignSelf: "center",
         textAlign: "center",
-        width: 25
+        color: "white",
+        fontSize: 18
     },
-    button: {
-        width: 90
+    text: {
+        marginTop: 20,
+        fontSize: 20,
+        textAlign: "center",
+        color: "white"
+    },
+    play: {
+        alignSelf: "center",
+        backgroundColor: "black",
+        fontSize: 20,
+        textAlign: "center",
+        color: "white",
+        borderStyle: "solid",
+        borderColor: "white",
+        borderRadius: 5,
+        borderWidth: 3,
+        marginTop: 20,
+        height: 40,
+        textAlignVertical: "center",
+        width: 200
+
     }
 })
 

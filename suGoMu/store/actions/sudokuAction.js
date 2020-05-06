@@ -24,7 +24,7 @@ export const getBoard = (difficulty) => {
                     .then(data => {
                         dispatch({
                             type: "SET_BOARD",
-                            payload: { init: initBoard, solution: data.solution }
+                            payload: { init: initBoard, solution: data.solution, level: data.difficulty }
                         })
                     })
             })
@@ -35,13 +35,12 @@ export const getBoard = (difficulty) => {
 
 export const validateBoard = (board) => {
     return dispatch => {
-        fetch(url + 'solve', {
+        return fetch(url + 'solve', {
             method: 'POST',
             body: encodeParams(board),
             headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
         }).then(res => res.json())
             .then(data => {
-                console.log(data, 'fetchs cvavldiasd')
                 dispatch({
                     type: "SET_STATUS",
                     payload: data.status

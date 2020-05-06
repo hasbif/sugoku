@@ -1,5 +1,5 @@
 import React from 'react'
-import { StyleSheet, Text, View, TextInput, Button, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, TextInput, Button, TouchableOpacity, Dimensions, ScrollView } from 'react-native';
 import Board from '../components/board'
 
 
@@ -7,9 +7,10 @@ function Game({ navigation, route }) {
 
 
     return <View style={styles.container}>
-        <Text> Game </Text>
-        <Text> {route.params.name} </Text>
-        <Board navigation={navigation} route={route} />
+        <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
+            <Board navigation={navigation} route={route} />
+        </ScrollView>
+
 
     </View>
 
@@ -20,10 +21,16 @@ function Game({ navigation, route }) {
 
 const styles = StyleSheet.create({
     container: {
-        width: 100,
+        backgroundColor: "black",
+
+        alignSelf: "center",
+        width: "100%",
+        height: "100%"
+    },
+    contentContainer: {
+        paddingTop: 30,
         alignItems: 'center',
         justifyContent: 'center',
-        alignSelf: "center",
     },
 });
 

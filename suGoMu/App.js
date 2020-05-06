@@ -13,16 +13,19 @@ const Stack = createStackNavigator()
 export default function App() {
   return (
 
-    <Provider store={store}>
+    <Provider store={store} >
 
 
-      <NavigationContainer>
+
+      <NavigationContainer >
+
         <Stack.Navigator
-          screenOptions={{ headerStyle: { fontWeight: "bold" } }}
+          screenOptions={{ headerStyle: { fontWeight: "bold" }, headerShown: false }}
         >
           <Stack.Screen
             name="Home"
             component={Home}
+
           />
           <Stack.Screen
             name="Sudoku"
@@ -34,7 +37,9 @@ export default function App() {
           />
 
         </Stack.Navigator>
+
       </NavigationContainer>
+
 
     </Provider>
 
@@ -44,8 +49,10 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: 'green',
     alignItems: 'center',
     justifyContent: 'center',
+
   },
+
 });
